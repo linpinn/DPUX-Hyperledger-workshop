@@ -6,15 +6,20 @@ const logger = require('./util/logger')
 const app = express()
 const port = process.env.PORT || '8099'
 
-const { eventHub, register } = require('./service/index')
+const { eventHub, register, enroll } = require('./service/index')
+
+const Options = require('./util/helper')
+const options = new Options()
 
 // for eventhub testing purpose
 // eventHub()
-register({ enrollmentID: 'usertest'})
+// register({ enrollmentID: 'usertest2'})
+
+// enroll(options.enrollment)
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 app.listen(port, () => {
-  logger.debug(`port listened on ${port}`)
+  logger.debug(`app is listening on ${port}`)
 })
