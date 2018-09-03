@@ -1,11 +1,12 @@
 # Hyperledger Awesome
-Hyperledger Awesome is applied project based on fabric sdk node written in javascript.
+Hyperledger Demo is an application to demo the Hyperledger Fabric functionalities
 
 ---------------------------------------------------
 ## API Deployment
 
 1. Install node modules `npm install`
-2. Start API on nodemon `npm run start:dev` or node `npm run start`
+2. Start API on nodemon `npm start`
+3. Go to `http://localhost:3003` to verify the server status
 
 ---------------------------------------------------
 ## API Reference
