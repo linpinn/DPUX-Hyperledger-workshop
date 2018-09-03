@@ -1,0 +1,67 @@
+{
+    "name": "local",
+    "x-networkId": "not-important",
+    "x-type": "hlfv1",
+    "description": "Connection Profile for local network",
+    "version": "1.2.0",
+    "client": {
+        "organization": "Org1MSP"
+    },
+    "channels": {
+        "mychannel": {
+            "orderers": [
+                "orderer.example.com"
+            ],
+            "peers": {
+                "peer0.org1.example.com": {
+                    "endorsingPeer": true,
+                    "chaincodeQuery": true,
+                    "ledgerQuery": true,
+                    "eventSource": true
+                }
+            },
+            "chaincodes": {
+                "mychaincode": "v1.0"
+            },
+            "x-blockDelay": 10000
+        }
+    },
+    "organizations": {
+        "Org1MSP": {
+            "mspid": "Org1MSP",
+            "peers": [
+                "peer0.org1.example.com"
+            ],
+            "certificateAuthorities": [
+                "ca.example.com"
+            ]
+        }
+    },
+    "orderers": {
+        "orderer.example.com": {
+            "url": "grpc://localhost:7050"
+        }
+    },
+    "peers": {
+        "peer0.org1.example.com": {
+            "url": "grpc://localhost:7051",
+            "eventUrl": "grpc://localhost:7053"
+        }
+    },
+    "certificateAuthorities": {
+        "ca.example.com": {
+            "url": "http://localhost:7054",
+            "httpOptions": {
+                "verify": true
+            },
+            "registrar": [
+                {
+                    "enrollId": "admin",
+                    "enrollSecret": "adminpw",
+                    "x-affiliations": ["org1.department1"]
+                }
+            ],
+            "caName": "ca.example.com"
+        }
+    }
+}

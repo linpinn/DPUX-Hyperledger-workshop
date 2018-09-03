@@ -1,0 +1,36 @@
+version: '2'
+
+services:
+  api-local:
+     image: origincert/listener:0.0.1
+     container_name: api-local
+     environment:
+       - TZ=Asia/Bangkok
+       #- HFC_LOGGING='{"debug":"logs/hfc.log"}'
+       - CONFIGFILE=connection-profile-local
+     tty: true
+     extra_hosts:
+       - "somewhere:10.104.143.133"
+     logging:
+       driver: json-file
+     restart: always
+     command: ['node','app.js']
+  api-ibp:
+     image: origincert/listener:0.0.1
+     container_name: api-ibp
+     environment:
+       - TZ=Asia/Bangkok
+       #- HFC_LOGGING={"debug":"logs/hfc.log"}
+       #- HFC_LOGGING={"debug":"console"}
+       - CONFIGFILE=connection-profile-ibp
+     tty: true
+     extra_hosts:
+       - "fft-zbc04a.4.secure.blockchain.ibm.com:169.50.49.250"
+       - "fft-zbc04b.4.secure.blockchain.ibm.com:169.50.49.249"
+       - "fft-zbc04c.4.secure.blockchain.ibm.com:169.50.49.248"
+       - "fft-zbc04d.4.secure.blockchain.ibm.com:169.50.49.247"
+       - "fft-zbc04e.4.secure.blockchain.ibm.com:169.50.49.246"
+     logging:
+       driver: json-file
+     restart: always
+     command: ['node','app.js']
