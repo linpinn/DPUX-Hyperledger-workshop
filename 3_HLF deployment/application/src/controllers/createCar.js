@@ -6,7 +6,7 @@ const createCar = async (req, res) => {
     const queryOptions = {
       chaincodeId: 'fabcar',
       fcn: 'createCar',
-      args: ['CAR12', 'sss', 'ddd', 'Red', 'Nick3'],
+      args: ['CAR13', 'dfdfdfdf', 'ddd', 'Red', 'Nick3'],
       chainId: 'mychannel',
     }
     const result = await invoke(enrollmentID, queryOptions)

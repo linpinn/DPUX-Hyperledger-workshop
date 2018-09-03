@@ -1,9 +1,9 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const routes = require('./routes')
+const { port } = require('./config')
 
 const app = express()
-const port = process.env.PORT || '3003'
 
 const startApp = () => {
   app.use(bodyParser.urlencoded({ extended: true }))

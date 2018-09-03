@@ -1,16 +1,12 @@
 const FabricClient = require('fabric-client')
 const path = require('path')
-const Options = require('../util/helper')
-
-const options = new Options()
-const kvsPath = path.join(__dirname, './../hfc-key-store')
+const config = require('../config')
 
 const query = async (enrollmentID, queryOptions) => {
   let response = null
 
   try {
     const hfc = new FabricClient()
-    const config = options.enrollment
     const channel = hfc.newChannel(config.channelName)
     const peer = hfc.newPeer(config.peerUrl, config.tlsOptions)
     const orderer = hfc.newOrderer(config.ordererUrl, config.tlsOptions)
@@ -20,16 +16,14 @@ const query = async (enrollmentID, queryOptions) => {
 
     const { newDefaultKeyValueStore, newCryptoSuite, newCryptoKeyStore } = FabricClient
 
-    // set key value store - 'hfc-key-store/{networkID}'
-    const eCertStore = path.join(__dirname, `./../hfc-key-store/${config.networkID}`)
+    const eCertStore = path.join(config.hfcKeyStorePath, config.networkID)
     const stateStore = await newDefaultKeyValueStore({ path: eCertStore })
 
     // set store for hfc
     await hfc.setStateStore(stateStore)
 
-    // enrollment certificate store - 'hfc-key-store'
     const cryptoSuite = newCryptoSuite()
-    const cryptoStore = newCryptoKeyStore({ path: kvsPath })
+    const cryptoStore = newCryptoKeyStore({ path: config.hfcKeyStorePath })
 
     cryptoSuite.setCryptoKeyStore(cryptoStore)
 

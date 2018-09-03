@@ -1,6 +1,4 @@
 const { register } = require('../service')
-const Options = require('../util/helper')
-const options = new Options()
 
 const createUser = async (req, res) => {
   try {

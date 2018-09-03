@@ -2,23 +2,19 @@ const FabricClient = require('fabric-client')
 const FabricCAClient = require('fabric-ca-client')
 const path = require('path')
 
-const kvsPath = path.join(__dirname, './../hfc-key-store')
-
 const enrollAdmin = async config => {
   const hfc = new FabricClient()
   const { newDefaultKeyValueStore, newCryptoSuite, newCryptoKeyStore } = FabricClient
 
   try {
-    // set key value store - 'hfc-key-store/{networkID}'
-    const eCertStore = path.join(__dirname, `./../hfc-key-store/${config.networkID}`)
+    const eCertStore = path.join(config.hfcKeyStorePath, config.networkID)
     const stateStore = await newDefaultKeyValueStore({ path: eCertStore })
 
     // set store for hfc
     await hfc.setStateStore(stateStore)
 
-    // enrollment certificate store - 'hfc-key-store'
     const cryptoSuite = newCryptoSuite()
-    const cryptoStore = newCryptoKeyStore({ path: kvsPath })
+    const cryptoStore = newCryptoKeyStore({ path: config.hfcKeyStorePath })
 
     cryptoSuite.setCryptoKeyStore(cryptoStore)
 
