@@ -1,44 +1,48 @@
-const enroll = require('./enroll')
-const logger = require('../util/logger')
+const FabricClient = require('fabric-client')
+const path = require('path')
 const Options = require('../util/helper')
 
-const defaultOpts = new Options()
+const options = new Options()
+const kvsPath = path.join(__dirname, './../hfc-key-store')
 
-// example ==========================
-// request: {
-//   chaincodeId: 'chaincodetest',
-//   fcn: 'query.something',
-//   args: []
-// }
-// ==================================
-const query = async request => {
-  logger.debug('[query.js] request is', request)
+const query = async (enrollmentID, queryOptions) => {
   let response = null
 
   try {
-    const { enrollOpts: enrollment } = defaultOpts
-    const options = Object.assign(enrollment, request)
-    const { channel } = await enroll(options)
+    const hfc = new FabricClient()
+    const config = options.enrollment
+    const channel = hfc.newChannel(config.channelName)
+    const peer = hfc.newPeer(config.peerUrl, config.tlsOptions)
+    const orderer = hfc.newOrderer(config.ordererUrl, config.tlsOptions)
 
-    const queryResponse = await channel.queryByChaincode(options)
+    channel.addPeer(peer)
+    channel.addOrderer(orderer)
 
-    if (queryResponse && queryResponse.length === 1) {
-      response = queryResponse
+    const { newDefaultKeyValueStore, newCryptoSuite, newCryptoKeyStore } = FabricClient
 
-      if (response instanceof Error) {
-        logger.error('[query.js] query error:', response.toString())
-        throw new Error('query error')
-      } else {
-        logger.info('[query.js] query success')
-        logger.debug('[query.js] query result:', response.toString())
-      }
-    }
-  } catch (error) {
-    logger.error('[query.js] query failed:', error.stack)
-    throw new Error('query error')
+    // set key value store - 'hfc-key-store/{networkID}'
+    const eCertStore = path.join(__dirname, `./../hfc-key-store/${config.networkID}`)
+    const stateStore = await newDefaultKeyValueStore({ path: eCertStore })
+
+    // set store for hfc
+    await hfc.setStateStore(stateStore)
+
+    // enrollment certificate store - 'hfc-key-store'
+    const cryptoSuite = newCryptoSuite()
+    const cryptoStore = newCryptoKeyStore({ path: kvsPath })
+
+    cryptoSuite.setCryptoKeyStore(cryptoStore)
+
+    await hfc.setCryptoSuite(cryptoSuite)
+
+    await hfc.getUserContext(enrollmentID, true)
+
+    response = await channel.queryByChaincode(queryOptions)
+
+    return JSON.parse(response.toString())
+  } catch (e) {
+    throw new Error(`[service.${query.name}] failed with error: ${e.message}`)
   }
-
-  return response.toString()
 }
 
 module.exports = query

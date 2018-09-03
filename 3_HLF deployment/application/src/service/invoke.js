@@ -1,118 +1,96 @@
-const enroll = require('./enroll')
-const logger = require('../util/logger')
+const FabricClient = require('fabric-client')
+const path = require('path')
 const Options = require('../util/helper')
 
-const defaultOpts = new Options()
-const timeout = 5000
+const options = new Options()
+const kvsPath = path.join(__dirname, './../hfc-key-store')
+let txId
 
-// transaction event
-const setUpTxEventHub = (client, channel, txIDAsString) => {
-  const { eventUrl: url, tlsOptions: tls } = defaultOpts.enrollment
-  const peer = client.newPeer(url, tls)
-  const eventHub = channel.newChannelEventHub(peer)
-
-  const txPromise = new Promise((resolve, reject) => {
-    const handleTx = setTimeout(() => {
-      eventHub.unregisterTxEvent(txIDAsString)
-      eventHub.disconnect()
-      resolve({ eventStatus: 'TIMEOUT' })
-    }, timeout)
-
-    eventHub.registerTxEvent(
-      txIDAsString,
-      (tx, validationCode) => {
-        clearTimeout(handleTx)
-        const eventResponse = {
-          eventStatus: validationCode,
-          txID: txIDAsString
-        }
-
-        if (validationCode === 'VALID') {
-          logger.info(`[invoke.js] transaction has been commited on peer ${eventHub.getPeerAddr()}`)
-          resolve(eventResponse)
-        } else {
-          logger.error('[invoke.js] validation code is not VALID')
-          resolve(eventResponse)
-        }
-      },
-      error => {
-        logger.error('[invoke.js] eventhub error:', error.stack)
-        reject(new Error('eventhub error'))
-      },
-      { disconnect: true }
-    )
-    eventHub.connect()
-  })
-
-  return txPromise
+const validateProposalResponses = (proposalResponses) => {
+  return proposalResponses 
+    && proposalResponses[0].response 
+    && proposalResponses[0].response.status === 200
 }
 
-// example ==========================
-// request: {
-//   chaincodeId: 'chaincodetest',
-//   fcn: 'query.something',
-//   args: []
-//   chainId: 'mychannel'
-//   txId: txId
-// }
-// ==================================
-const invoke = async request => {
-  logger.debug('[invoke.js] request is', request)
+const invoke = async (enrollmentID, invokeOptions) => {
+  let response = null
+
   try {
-    const { enrollOpts: enrollment } = defaultOpts
-    const options = Object.assign(enrollment, request)
-    const { client, channel } = await enroll(options)
-    const txID = client.newTransactionID()
+    const hfc = new FabricClient()
+    const config = options.enrollment
+    const channel = hfc.newChannel(config.channelName)
+    const peer = hfc.newPeer(config.peerUrl, config.tlsOptions)
+    const orderer = hfc.newOrderer(config.ordererUrl, config.tlsOptions)
 
-    logger.info(`[invoke.js] assign transaction id ${txID.getTransactionID()}`)
-    // assign txId to request object
-    request.txId = txID
-    // index 0: from endorsing peer, index 1: need to send to orderer
-    const [
-      proposalResponses,
-      originalProposal
-    ] = await channel.sendTransactionProposal(request)
+    channel.addPeer(peer)
+    channel.addOrderer(orderer)
 
-    if (proposalResponses && proposalResponses[0].response && proposalResponses[0].response.status === 200) {
-      logger.debug('[invoke.js] success to sent proposal with response status 200')
-      const ordererRequest = {
-        proposalResponses,
-        proposal: originalProposal
-      }
-      const txIDAsString = txID.getTransactionID()
+    const { newDefaultKeyValueStore, newCryptoSuite, newCryptoKeyStore } = FabricClient
 
-      // prepare for promise all
-      const promises = []
-      const sendPromise = channel.sendTransaction(ordererRequest)
-      const txPromise = setUpTxEventHub(client, channel, txIDAsString)
+    // set key value store - 'hfc-key-store/{networkID}'
+    const eCertStore = path.join(__dirname, `./../hfc-key-store/${config.networkID}`)
+    const stateStore = await newDefaultKeyValueStore({ path: eCertStore })
 
-      promises.push(sendPromise)
-      promises.push(txPromise)
+    // set store for hfc
+    await hfc.setStateStore(stateStore)
 
-      const results = await Promise.all(promises)
+    // enrollment certificate store - 'hfc-key-store'
+    const cryptoSuite = newCryptoSuite()
+    const cryptoStore = newCryptoKeyStore({ path: kvsPath })
 
-      if (results && results[0] && results[0].status === 'SUCCESS') {
-        logger.debug('[invoke.js] invoked success and tx has been sent to orderer')
-      } else {
-        logger.debug(`[invoke.js] failed to invoke and tx cannot sent to orderer with status ${results[0].status}`)
-      }
+    cryptoSuite.setCryptoKeyStore(cryptoStore)
 
-      if (results && results[1] && results[1].status === 'VALID') {
-        logger.debug('[invoke.js] invoked success and tx has been commited to peer')
-      } else {
-        logger.debug(`[invoke.js] failed to invoke and tx cannot commited to peer with status ${results[1].status}`)
+    await hfc.setCryptoSuite(cryptoSuite)
+
+    await hfc.getUserContext(enrollmentID, true)
+
+    txId = hfc.newTransactionID()
+    invokeOptions.txId = txId
+
+    const transactionProposalResponse = await channel.sendTransactionProposal(invokeOptions)
+    const proposalResponses = transactionProposalResponse[0]
+    const proposal = transactionProposalResponse[1]
+
+    if (validateProposalResponses(proposalResponses)) {
+      const request = {
+        proposalResponses: proposalResponses,
+        proposal: proposal
       }
 
-      logger.info('[invoke.js] invoke success')
+      const promiseParams = []
+      const sendPromise = channel.sendTransaction(request)
+		  promiseParams.push(sendPromise)
 
-      return results
+      const txIdString = txId.getTransactionID()
+      const eventHub = channel.newChannelEventHub(peer);
+      const txPromise = new Promise((resolve, reject) => {
+        const handle = setTimeout(() => {
+          eventHub.unregisterTxEvent(txIdString)
+          eventHub.disconnect()
+          resolve({event_status : 'TIMEOUT'})
+        }, 3000)
+        eventHub.registerTxEvent(txIdString, (tx, code) => {
+          clearTimeout(handle)
+
+          if (code !== 'VALID') {
+            reject(new Error(`transaction ${tx} is invalid`))
+          } else {
+            resolve({ txId : txIdString})
+          }
+        }, (e) => reject(new Error(`eventhub error with message ${e.message}`)),
+          {disconnect: true} //disconnect when complete
+        )
+        eventHub.connect()
+      })
+      promiseParams.push(txPromise)
+
+      const result = await Promise.all(promiseParams)
+      return result[1]
+    } else {
+      throw new Error('proposalResponses is invalid')
     }
-
-    logger.error('[invoke.js] error on send proposal or receive. response is not 200 or null')
-    throw new Error('error on send transaction proposal')
-  } catch (error) {
-    logger.error('[invoke.js] invoking error:', error.stack)
-    throw new Error('invoke error')
+  } catch (e) {
+    throw new Error(`[service.${invoke.name}] failed with error: ${e.message}`)
   }
 }
 

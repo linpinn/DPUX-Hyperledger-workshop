@@ -1,10 +1,8 @@
 const FabricClient = require('fabric-client')
 const FabricCAClient = require('fabric-ca-client')
 const path = require('path')
-const logger = require('../util/logger')
 
 const kvsPath = path.join(__dirname, './../hfc-key-store')
-let currentUser = null
 
 const enrollAdmin = async config => {
   const hfc = new FabricClient()
@@ -38,28 +36,23 @@ const enrollAdmin = async config => {
     const hfca = new FabricCAClient(config.caUrl, tlsOptions, config.caName, cryptoSuite)
   
     if (user && user.isEnrolled()) {
-      logger.debug(`[enroll.js] loaded ${config.enrollmentID} success`)
-      currentUser = user || null
-  
-      return currentUser
+      return user
     }
 
-      const enrollment = await hfca.enroll({
-        enrollmentID: config.enrollmentID,
-        enrollmentSecret: config.enrollmentSecret
-      })
-  
-      // recreate user when user not found
-      await hfc.createUser({
-        username: config.enrollmentID,
-        mspid: config.mspID,
-        cryptoContent: {
-          privateKeyPEM: enrollment.key.toBytes(),
-          signedCertPEM: enrollment.certificate
-        }
-      })
+    const enrollment = await hfca.enroll({
+      enrollmentID: config.enrollmentID,
+      enrollmentSecret: config.enrollmentSecret
+    })
 
-    logger.info(`[enroll.js] enroll user ${config.enrollmentID} complete`)
+    // recreate user when user not found
+    await hfc.createUser({
+      username: config.enrollmentID,
+      mspid: config.mspID,
+      cryptoContent: {
+        privateKeyPEM: enrollment.key.toBytes(),
+        signedCertPEM: enrollment.certificate
+      }
+    })
   } catch (error) {
     throw new Error(`[service.${enrollAdmin.name}] failed with error: ${e.message}`)
   }

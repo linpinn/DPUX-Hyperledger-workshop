@@ -1,7 +1,6 @@
 const FabricClient = require('fabric-client')
 const FabricCAClient = require('fabric-ca-client')
 const path = require('path')
-const logger = require('../util/logger')
 const Options = require('../util/helper')
 
 const options = new Options()

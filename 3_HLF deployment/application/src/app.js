@@ -1,7 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 
-const logger = require('./util/logger')
 const app = express()
 const port = process.env.PORT || '3003'
 
@@ -24,7 +23,7 @@ const startApp = () => {
   app.use(routes)
 
   app.listen(port, () => {
-    logger.debug(`app is listening on ${port}`)
+    console.log(`app is listening on ${port}`)
   })
 }
 
