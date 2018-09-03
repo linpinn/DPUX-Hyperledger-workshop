@@ -25,6 +25,8 @@ You can check the version by running the following command:
 docker --version
 docker-compose --version
 ```
+
+> If docker-compose is unavailable on your machine, try installing directly by following [link][docker-compose-url]
 ---
 
 ## Go
@@ -93,3 +95,4 @@ export PATH=$(pwd)/bin:$PATH
    [docker-url]: <https://www.docker.com/get-started>
    [go-url]: <https://golang.org/dl/>
    [nodejs-url]: <https://nodejs.org/en/download/>
+   [docker-compose-url]: <https://docs.docker.com/compose/install/#install-compose>
