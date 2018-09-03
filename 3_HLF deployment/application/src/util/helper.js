@@ -1,5 +1,3 @@
-require('dotenv').config({ path: './.env' })
-
 // read the config file
 const configFile = process.env.CONFIGFILE || 'connection-profile-local'
 const configPath = `../config/${configFile}`

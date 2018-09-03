@@ -6,8 +6,6 @@ const Options = require('../util/helper')
 
 const options = new Options()
 const kvsPath = path.join(__dirname, './../hfc-key-store')
-let currentUser = null
-let enrollObj = null
 
 const registerNewUser = async (hfca, hfc, config, registrar, userEnrollmentId) => {
   const { affiliations } = config
