@@ -11,5 +11,6 @@ module.exports = {
   eventHub,
   invoke,
   query,
-  register
+  register,
+  enrollAdmin: require('./enrollAdmin')
 }

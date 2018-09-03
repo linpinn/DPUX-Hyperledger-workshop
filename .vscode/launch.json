@@ -8,7 +8,7 @@
       "type": "node",
       "request": "launch",
       "name": "App",
-      "program": "${workspaceFolder}/3_HLF deployment/application/app.js"
+      "program": "${workspaceFolder}/3_HLF deployment/application/index.js"
     }
   ]
 }
