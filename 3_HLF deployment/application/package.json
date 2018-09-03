@@ -1,18 +1,19 @@
 {
   "name": "hyperledger",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "hyperledger api template",
-  "main": "app.js",
+  "main": "index.js",
   "author": "Kriengsak Kongkapunya",
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.18.3",
+    "cycle": "^1.0.3",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "fabric-ca-client": "1.1.2",
     "fabric-client": "1.1.2"
   },
   "scripts": {
-    "start": "node app.js"
+    "start": "node index.js"
   }
 }
