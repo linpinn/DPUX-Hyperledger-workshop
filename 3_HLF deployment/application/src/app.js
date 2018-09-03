@@ -11,6 +11,7 @@ const startApp = () => {
   app.use(routes)
   app.listen(port, () => {
     console.log(`app is listening on ${port}`)
+    console.log(`please open the browser with the url http://localhost:${port}`)
   })
 }
 
