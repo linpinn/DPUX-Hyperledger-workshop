@@ -7,7 +7,7 @@ const getAllUsers = async (req, res) => {
       throw new Error('username is required')
     }
     const options = {
-      chaincodeId: 'chaincode',
+      chaincodeId: 'demo',
       fcn: 'view',
       args: [JSON.stringify({
         name: req.params.username

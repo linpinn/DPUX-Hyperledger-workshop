@@ -5,7 +5,7 @@ const createUser = async (req, res) => {
   try {
     const username = req.body.username
     const options = {
-      chaincodeId: 'chaincode',
+      chaincodeId: 'demo',
       fcn: 'register',
       args: [JSON.stringify({
         name: username,

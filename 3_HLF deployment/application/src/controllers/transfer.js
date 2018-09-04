@@ -14,7 +14,7 @@ const getAllUsers = async (req, res) => {
     }
 
     const options = {
-      chaincodeId: 'chaincode',
+      chaincodeId: 'demo',
       fcn: 'transfer',
       args: [JSON.stringify({
         from: req.username,

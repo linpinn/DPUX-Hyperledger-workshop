@@ -4,7 +4,7 @@ const config = require('../config')
 const getAllUsers = async (req, res) => {
   try {
     const options = {
-      chaincodeId: 'chaincode',
+      chaincodeId: 'demo',
       fcn: 'list',
       args: [],
       chainId: 'mychannel',

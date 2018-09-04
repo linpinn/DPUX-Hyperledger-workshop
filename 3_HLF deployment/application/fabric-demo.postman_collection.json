@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "health check",
+			"name": "1.health check",
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -26,35 +26,7 @@
 			"response": []
 		},
 		{
-			"name": "create user",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"enrollmentID\": \"sample4\"\n}"
-				},
-				"url": {
-					"raw": "http://localhost:3003/user",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3003",
-					"path": [
-						"user"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "create admin",
+			"name": "2.create admin",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -87,50 +59,106 @@
 			"response": []
 		},
 		{
-			"name": "get cars",
+			"name": "3.create user",
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [
 					{
-						"key": "enrollment-id",
-						"value": "sample4"
+						"key": "Content-Type",
+						"value": "application/json"
 					}
 				],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"sample2\"\n}"
+				},
 				"url": {
-					"raw": "http://localhost:3003/cars",
+					"raw": "http://localhost:3003/users",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "3003",
 					"path": [
-						"cars"
+						"users"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "create cars",
+			"name": "4. get one user",
 			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "enrollment-id",
-						"value": "sample4"
-					}
-				],
+				"method": "GET",
+				"header": [],
 				"body": {},
 				"url": {
-					"raw": "http://localhost:3003/cars",
+					"raw": "http://localhost:3003/users/sample1",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "3003",
 					"path": [
-						"cars"
+						"users",
+						"sample1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "5. get all user",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "username",
+						"value": "sample1"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:3003/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3003",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "6.transfer",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "username",
+						"value": "sample1"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"target\": \"sample2\",\n\t\"amount\": 100\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3003/transfer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3003",
+					"path": [
+						"transfer"
 					]
 				}
 			},
