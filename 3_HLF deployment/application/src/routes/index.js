@@ -6,7 +6,8 @@ const {
   createUser,
   getAllCars,
   createCar,
-  getAllUsers
+  getAllUsers,
+  getOneUser
 } = require('../controllers')
 const { auth } = require('../middlewares')
 
@@ -14,10 +15,12 @@ const { auth } = require('../middlewares')
 router.get('/health-check', healthCheck)
 router.post('/admin', createAdmin)
 router.post('/users', createUser)
-router.get('/users', getAllUsers)
+router.get('/users/:username', getOneUser)
 
 // routes with auth
 router.get('/cars', auth, getAllCars)
+router.get('/users', auth, getAllUsers)
 router.post('/cars', auth, createCar)
+
 
 module.exports = router

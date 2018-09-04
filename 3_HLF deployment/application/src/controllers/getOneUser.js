@@ -3,10 +3,15 @@ const config = require('../config')
 
 const getAllUsers = async (req, res) => {
   try {
+    if (!req.params.username) {
+      throw new Error('username is required')
+    }
     const options = {
       chaincodeId: 'chaincode',
-      fcn: 'list',
-      args: [],
+      fcn: 'view',
+      args: [JSON.stringify({
+        name: req.params.username
+      })],
       chainId: 'mychannel',
     }
     const result = await query(config.enrollmentID, options)
