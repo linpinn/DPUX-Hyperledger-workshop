@@ -1,13 +1,20 @@
-const { register } = require('../service')
+const { invoke } = require('../service')
+const config = require('../config')
 
 const createUser = async (req, res) => {
   try {
-    const enrollmentID = req.body.enrollmentID
-    if (!enrollmentID) {
-      res.status(400).json({ error: 'enrollmentID is required' })
+    const username = req.body.username
+    const options = {
+      chaincodeId: 'chaincode',
+      fcn: 'register',
+      args: [JSON.stringify({
+        name: username,
+        balance: 1000
+      })],
+      chainId: 'mychannel',
     }
-    await register({ enrollmentID })
-    res.json({ msg: 'success' })
+    const result = await invoke(config.enrollmentID, options)
+    res.json(result)
   } catch(e) {
     res.status(500).json({ error: e.message })
   }

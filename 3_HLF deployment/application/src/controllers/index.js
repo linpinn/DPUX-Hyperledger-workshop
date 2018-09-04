@@ -3,5 +3,6 @@ module.exports = {
   createUser: require('./createUser'),
   healthCheck: require('./healthCheck'),
   getAllCars: require('./getAllCars'),
-  createCar: require('./createCar')
+  createCar: require('./createCar'),
+  getAllUsers: require('./getAllUsers'),
 }

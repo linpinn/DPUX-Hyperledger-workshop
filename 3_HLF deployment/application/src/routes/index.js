@@ -5,14 +5,16 @@ const {
   createAdmin,
   createUser,
   getAllCars,
-  createCar
+  createCar,
+  getAllUsers
 } = require('../controllers')
 const { auth } = require('../middlewares')
 
 // routes w/o auth
 router.get('/health-check', healthCheck)
 router.post('/admin', createAdmin)
-router.post('/user', createUser)
+router.post('/users', createUser)
+router.get('/users', getAllUsers)
 
 // routes with auth
 router.get('/cars', auth, getAllCars)
