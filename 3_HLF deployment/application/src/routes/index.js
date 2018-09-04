@@ -7,7 +7,8 @@ const {
   getAllCars,
   createCar,
   getAllUsers,
-  getOneUser
+  getOneUser,
+  transfer
 } = require('../controllers')
 const { auth } = require('../middlewares')
 
@@ -21,6 +22,7 @@ router.get('/users/:username', getOneUser)
 router.get('/cars', auth, getAllCars)
 router.get('/users', auth, getAllUsers)
 router.post('/cars', auth, createCar)
+router.post('/transfer', auth, transfer)
 
 
 module.exports = router

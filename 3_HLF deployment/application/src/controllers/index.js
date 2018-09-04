@@ -5,5 +5,6 @@ module.exports = {
   getAllCars: require('./getAllCars'),
   createCar: require('./createCar'),
   getAllUsers: require('./getAllUsers'),
-  getOneUser: require('./getOneUser')
+  getOneUser: require('./getOneUser'),
+  transfer: require('./transfer')
 }
