@@ -4,8 +4,6 @@ const {
   healthCheck,
   createAdmin,
   createUser,
-  getAllCars,
-  createCar,
   getAllUsers,
   getOneUser,
   transfer
@@ -19,9 +17,7 @@ router.post('/users', createUser)
 router.get('/users/:username', getOneUser)
 
 // routes with auth
-router.get('/cars', auth, getAllCars)
 router.get('/users', auth, getAllUsers)
-router.post('/cars', auth, createCar)
 router.post('/transfer', auth, transfer)
 
 
