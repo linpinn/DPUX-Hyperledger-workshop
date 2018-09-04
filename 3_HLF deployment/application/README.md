@@ -1,5 +1,5 @@
-# Hyperledger Awesome
-Hyperledger Demo is an application to demo the Hyperledger Fabric functionalities
+# Hyperledger API
+Hyperledger Demo is an application to demo the Hyperledger Fabric functionalities and compatible with demo chaincode.
 
 ---------------------------------------------------
 ## API Deployment
@@ -10,4 +10,4 @@ Hyperledger Demo is an application to demo the Hyperledger Fabric functionalitie
 
 ---------------------------------------------------
 ## API Reference
-This API written based on [fabric-sdk-node](https://fabric-sdk-node.github.io/).
+A Documentation please find [fabric-sdk-node](https://fabric-sdk-node.github.io/) for more information and how to use APIs with some tutorials.
