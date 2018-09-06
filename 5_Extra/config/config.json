@@ -8,20 +8,15 @@
         "events": "grpc://127.0.0.1:7053",
         "server-hostname": "peer0.org1.example.com"
       },
-      "peer2": {
-        "requests": "grpc://127.0.0.1:8051",
-        "events": "grpc://127.0.0.1:8053",
-        "server-hostname": "peer0.org2.example.com"
-      },
       "admin": {
         "key":
-          "/home/origincert/Desktop/origincert/origincert-e2e/basic-network-two-channels/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore",
+          "../../3_HLF deployment/fabric-samples/basic-network/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore",
         "cert":
-          "/home/origincert/Desktop/origincert/origincert-e2e/basic-network-two-channels/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts"
+          "../../3_HLF deployment/fabric-samples/basic-network/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts"
       }
     }
   },
-  "channel": "private-channel",
+  "channel": "mychannel",
   "orderers": [
     {
       "mspid": "OrdererMSP",
@@ -29,10 +24,10 @@
       "requests": "grpc://127.0.0.1:7050"
     }
   ],
-  "keyValueStore": "/home/origincert/Desktop/origincert/origincert-compose/dev1.1/client/hfc-key-store",
+  "keyValueStore": "../../3_HLF deployment/application/hfc-key-store",
   "configtxgenToolPath": "fabric-path/fabric-samples/bin",
   "SYNC_START_DATE_FORMAT": "YYYY/MM/DD",
-  "syncStartDate": "2018/01/01",
+  "syncStartDate": "2018/09/01",
   "eventWaitTime": "30000",
   "license": "Apache-2.0",
   "version": "1.1"
