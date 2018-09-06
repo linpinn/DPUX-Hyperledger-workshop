@@ -1,5 +1,4 @@
 const { query } = require('../service')
-const config = require('../config')
 
 const getAllUsers = async (req, res) => {
   try {
@@ -9,7 +8,7 @@ const getAllUsers = async (req, res) => {
       args: [],
       chainId: 'mychannel',
     }
-    const result = await query(config.enrollmentID, options)
+    const result = await query(req.networkUser, options)
     res.json(result)
   } catch(e) {
     res.status(500).json({ error: e.message })

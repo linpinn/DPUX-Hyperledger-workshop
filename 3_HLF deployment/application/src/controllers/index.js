@@ -4,5 +4,6 @@ module.exports = {
   healthCheck: require('./healthCheck'),
   getAllUsers: require('./getAllUsers'),
   getOneUser: require('./getOneUser'),
-  transfer: require('./transfer')
+  transfer: require('./transfer'),
+  createNetworkUser: require('./createNetworkUser')
 }

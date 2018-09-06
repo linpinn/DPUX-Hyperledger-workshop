@@ -1,11 +1,15 @@
 const { invoke } = require('../service')
-const config = require('../config')
 
 const getAllUsers = async (req, res) => {
   try {
-    const targetUsername = req.body.target
-    if (!targetUsername) {
-      throw new Error('target is required')
+    const toAccount = req.body['to-account']
+    if (!toAccount) {
+      throw new Error('to-account is required')
+    }
+
+    const fromAccount = req.body['from-account']
+    if (!fromAccount) {
+      throw new Error('from-account is required')
     }
 
     const amount = req.body.amount
@@ -17,13 +21,13 @@ const getAllUsers = async (req, res) => {
       chaincodeId: 'demo',
       fcn: 'transfer',
       args: [JSON.stringify({
-        from: req.username,
-        to: targetUsername,
+        from: fromAccount,
+        to: toAccount,
         amount
       })],
       chainId: 'mychannel',
     }
-    const result = await invoke(config.enrollmentID, options)
+    const result = await invoke(req.networkUser, options)
     res.json(result)
   } catch(e) {
     res.status(500).json({ error: e.message })

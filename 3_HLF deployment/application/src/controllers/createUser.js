@@ -1,5 +1,4 @@
 const { invoke } = require('../service')
-const config = require('../config')
 
 const createUser = async (req, res) => {
   try {
@@ -13,7 +12,7 @@ const createUser = async (req, res) => {
       })],
       chainId: 'mychannel',
     }
-    const result = await invoke(config.enrollmentID, options)
+    const result = await invoke(req.networkUser, options)
     res.json(result)
   } catch(e) {
     res.status(500).json({ error: e.message })
