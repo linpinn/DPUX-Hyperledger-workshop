@@ -59,18 +59,55 @@
 			"response": []
 		},
 		{
-			"name": "3.create user",
+			"name": "3.create network user",
 			"request": {
 				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
 						"value": "application/json"
+					},
+					{
+						"key": "",
+						"value": "",
+						"disabled": true
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"username\": \"sample2\"\n}"
+					"raw": "{\n\t\"network-user\": \"network-user1\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3003/network-users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3003",
+					"path": [
+						"network-users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4.create user",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "network-user",
+						"value": "network-user1"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"sample1\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:3003/users",
@@ -87,10 +124,15 @@
 			"response": []
 		},
 		{
-			"name": "4. get one user",
+			"name": "5. get one user",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "network-user",
+						"value": "network-user1"
+					}
+				],
 				"body": {},
 				"url": {
 					"raw": "http://localhost:3003/users/sample1",
@@ -108,13 +150,13 @@
 			"response": []
 		},
 		{
-			"name": "5. get all user",
+			"name": "6. get all user",
 			"request": {
 				"method": "GET",
 				"header": [
 					{
-						"key": "username",
-						"value": "sample1"
+						"key": "network-user",
+						"value": "network-user1"
 					}
 				],
 				"body": {},
@@ -133,7 +175,7 @@
 			"response": []
 		},
 		{
-			"name": "6.transfer",
+			"name": "7.transfer",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -142,13 +184,13 @@
 						"value": "application/json"
 					},
 					{
-						"key": "username",
-						"value": "sample1"
+						"key": "network-user",
+						"value": "network-user1"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"target\": \"sample2\",\n\t\"amount\": 100\n}"
+					"raw": "{\n\t\"from-account\": \"sample1\",\n\t\"to-account\": \"sample2\",\n\t\"amount\": 100\n}"
 				},
 				"url": {
 					"raw": "http://localhost:3003/transfer",
