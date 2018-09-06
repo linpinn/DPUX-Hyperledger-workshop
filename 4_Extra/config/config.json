@@ -24,7 +24,7 @@
       "requests": "grpc://127.0.0.1:7050"
     }
   ],
-  "keyValueStore": "../../3_HLF deployment/application/hfc-key-store",
+  "keyValueStore": "./hfc-key-store",
   "configtxgenToolPath": "fabric-path/fabric-samples/bin",
   "SYNC_START_DATE_FORMAT": "YYYY/MM/DD",
   "syncStartDate": "2018/09/01",
