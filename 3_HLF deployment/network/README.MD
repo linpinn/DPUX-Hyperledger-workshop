@@ -1,7 +1,7 @@
 # Chaincode Deployment
 This part use for chaincode deployment and step should follow as list below.
 
-1. Run bash script `./deploycc.sh` The Hyperledger Fabric Network will start with container follow by list below. 
+1. Run bash script `./deployNetwork.sh` The Hyperledger Fabric Network will start with container follow by list below. 
 
 ```
 +- fabric-peer
@@ -29,4 +29,4 @@ For chaincode developer and no need to start with API. Chaincode can tested by u
 In case of cannot deploy chaincode. the solution for fix this problem shown below.
 
 1. Remove old docker images of chaincode named like `dev-peer0.org1.example.com-demo-1.0-{hash}`
-2. Try to restart `./deploycc.sh` or retry step to install and instancetiate again.
+2. Try to restart `./deployNetwork.sh` or retry step to install and instancetiate again.

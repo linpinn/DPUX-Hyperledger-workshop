@@ -31,7 +31,7 @@ This project provide file structure like this.
 |   |   +-- generate.sh
 |   +-- chaincode
 +-- network
-|   +-- deploycc.sh
+|   +-- deployNetwork.sh
 |   +-- upgradecc.sh
 |   +-- demo
 |   |   +--demo.go
