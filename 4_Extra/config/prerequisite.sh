@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# clone repository
+rm -R ../blockchain-explorer
+git clone https://github.com/hyperledger/blockchain-explorer ../blockchain-explorer
+
 # copy file
 cp appconfig.json ../blockchain-explorer/.
 cp config.json ../blockchain-explorer/app/platform/fabric/.
@@ -26,4 +30,3 @@ cd ./app/persistence/postgreSQL/db
 ./createdb.sh 
 
 echo "prerequisite completed !!"
-
