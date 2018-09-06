@@ -22,18 +22,13 @@ const enrollAdmin = async config => {
 
     // check is certificate already have in key store or not
     const user = await hfc.getUserContext(config.enrollmentID, true)
-
-    const tlsOptions = {
-      trustedRoots: [],
-      verify: false
-    }
-  
-    // fabric ca instance
-    const hfca = new FabricCAClient(config.caUrl, tlsOptions, config.caName, cryptoSuite)
   
     if (user && user.isEnrolled()) {
       return user
     }
+
+    // fabric ca instance
+    const hfca = new FabricCAClient(config.caUrl, null, config.caName, cryptoSuite)
 
     const enrollment = await hfca.enroll({
       enrollmentID: config.enrollmentID,
