@@ -89,6 +89,15 @@ export PATH=$(pwd)/bin:$PATH
 
 ---
 
+## Clone workshop project
+
+The workshop project is available on github. You can download it by running the following command:
+
+```
+git clone https://github.com/linpinn/DPUX-Hyperledger-workshop
+```
+---
+
 [//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
 
    [curl-url]: <https://curl.haxx.se/download.html>
