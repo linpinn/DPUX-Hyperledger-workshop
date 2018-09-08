@@ -113,6 +113,11 @@ git clone https://github.com/linpinn/DPUX-Hyperledger-workshop
 ```
 ---
 
+## Install postman
+
+Download at [link][postman-url].
+---
+
 [//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
 
    [curl-url]: <https://curl.haxx.se/download.html>
@@ -120,3 +125,4 @@ git clone https://github.com/linpinn/DPUX-Hyperledger-workshop
    [go-url]: <https://golang.org/dl/>
    [nodejs-url]: <https://nodejs.org/en/download/>
    [docker-compose-url]: <https://docs.docker.com/compose/install/#install-compose>
+   [postman-url]: <https://www.getpostman.com/docs/v6/postman/launching_postman/installation_and_updates>
