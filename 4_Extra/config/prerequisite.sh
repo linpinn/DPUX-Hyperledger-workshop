@@ -4,7 +4,7 @@
 rm -R ../blockchain-explorer
 git clone https://github.com/hyperledger/blockchain-explorer ../blockchain-explorer
 cd ../blockchain-explorer
-git checkout d8381a58dda17f0a3b8efcce9783ef5b0e997214
+git checkout release-3.5
 cd -
 
 # copy file
