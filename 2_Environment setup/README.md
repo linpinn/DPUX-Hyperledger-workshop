@@ -36,6 +36,12 @@ docker-compose --version
 
 > If docker-compose is unavailable on your machine, try installing directly by following [link][docker-compose-url]
 
+Run this command to test docker on your machine:
+
+```
+docker run hello-world
+```
+
 ---
 
 ## Go
