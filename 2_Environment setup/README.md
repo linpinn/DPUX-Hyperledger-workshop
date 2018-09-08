@@ -19,6 +19,14 @@ Download at [link][docker-url].
 
 > Installing Docker for Mac or Windows, or Docker Toolbox will also install Docker Compose. If you already had Docker installed, you should check that you have Docker Compose version 1.14.0 or greater installed. If not, we recommend that you install a more recent version of Docker.
 
+Installing docker-ce on ubuntu
+
+```
+sudo apt-get update
+apt-get install docker-ce
+
+```
+
 You can check the version by running the following command:
 
 ```
@@ -27,6 +35,13 @@ docker-compose --version
 ```
 
 > If docker-compose is unavailable on your machine, try installing directly by following [link][docker-compose-url]
+
+Run this command to test docker on your machine:
+
+```
+docker run hello-world
+```
+
 ---
 
 ## Go
@@ -98,6 +113,12 @@ git clone https://github.com/linpinn/DPUX-Hyperledger-workshop
 ```
 ---
 
+## Install postman
+
+Download at [link][postman-url].
+  
+---
+
 [//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
 
    [curl-url]: <https://curl.haxx.se/download.html>
@@ -105,3 +126,4 @@ git clone https://github.com/linpinn/DPUX-Hyperledger-workshop
    [go-url]: <https://golang.org/dl/>
    [nodejs-url]: <https://nodejs.org/en/download/>
    [docker-compose-url]: <https://docs.docker.com/compose/install/#install-compose>
+   [postman-url]: <https://www.getpostman.com/docs/v6/postman/launching_postman/installation_and_updates>
