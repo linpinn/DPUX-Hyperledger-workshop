@@ -19,6 +19,14 @@ Download at [link][docker-url].
 
 > Installing Docker for Mac or Windows, or Docker Toolbox will also install Docker Compose. If you already had Docker installed, you should check that you have Docker Compose version 1.14.0 or greater installed. If not, we recommend that you install a more recent version of Docker.
 
+Installing docker-ce on ubuntu
+
+```
+sudo apt-get update
+apt-get install docker-ce
+
+```
+
 You can check the version by running the following command:
 
 ```
@@ -27,6 +35,7 @@ docker-compose --version
 ```
 
 > If docker-compose is unavailable on your machine, try installing directly by following [link][docker-compose-url]
+
 ---
 
 ## Go
